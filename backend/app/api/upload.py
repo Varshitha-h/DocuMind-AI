@@ -2,9 +2,10 @@ from pathlib import Path
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
-from app.rag.chunker import chunk_text
-from app.services.pdf_reader import extract_text_from_pdf
 from app.services.pdf_service import save_pdf
+from app.services.pdf_reader import extract_text_from_pdf
+from app.rag.chunker import chunk_text
+from app.rag.embeddings import generate_embeddings
 
 router = APIRouter()
 
@@ -12,10 +13,11 @@ router = APIRouter()
 @router.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
     """
-    Upload a PDF, save it, extract text, and split it into chunks.
+    Upload a PDF, save it, extract text,
+    split it into chunks, and generate embeddings.
     """
 
-    # Validate file type
+    # Validate uploaded file
     if file.content_type != "application/pdf":
         raise HTTPException(
             status_code=400,
@@ -28,13 +30,16 @@ async def upload_pdf(file: UploadFile = File(...)):
     # Build path to saved PDF
     file_path = Path("uploads") / result["stored_filename"]
 
-    # Extract text
+    # Extract text from PDF
     extracted_text = extract_text_from_pdf(file_path)
 
-    # Create chunks
+    print("\n========== EXTRACTED TEXT ==========\n")
+    print(extracted_text[:500])
+    print("\n====================================\n")
+
+    # Split text into chunks
     chunks = chunk_text(extracted_text)
 
-    # Print chunk information in terminal
     print("\n========== CHUNK INFORMATION ==========\n")
     print(f"Total Chunks Created: {len(chunks)}")
 
@@ -42,12 +47,24 @@ async def upload_pdf(file: UploadFile = File(...)):
         print(f"\n----------- Chunk {index} -----------")
         print(chunk[:300])
 
-    print("\n======================================\n")
+    print("\n=======================================\n")
+
+    # Generate embeddings
+    embeddings = generate_embeddings(chunks)
+
+    print("\n========== EMBEDDINGS ==========\n")
+    print(f"Total Embeddings: {len(embeddings)}")
+
+    if embeddings:
+        print(f"Embedding Dimension: {len(embeddings[0])}")
+
+    print("\n================================\n")
 
     return {
-        "message": "PDF uploaded successfully.",
+        "message": "PDF processed successfully.",
         "original_filename": result["original_filename"],
         "stored_filename": result["stored_filename"],
         "total_chunks": len(chunks),
+        "embedding_dimension": len(embeddings[0]) if embeddings else 0,
         "first_chunk": chunks[0] if chunks else ""
     }
