@@ -6,6 +6,7 @@ from app.services.pdf_service import save_pdf
 from app.services.pdf_reader import extract_text_from_pdf
 from app.rag.chunker import chunk_text
 from app.rag.embeddings import generate_embeddings
+from app.rag.vector_store import VectorStore
 
 router = APIRouter()
 
@@ -13,8 +14,8 @@ router = APIRouter()
 @router.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
     """
-    Upload a PDF, save it, extract text,
-    split it into chunks, and generate embeddings.
+    Upload a PDF, extract text, generate embeddings,
+    and store them in a FAISS vector store.
     """
 
     # Validate uploaded file
@@ -30,7 +31,7 @@ async def upload_pdf(file: UploadFile = File(...)):
     # Build path to saved PDF
     file_path = Path("uploads") / result["stored_filename"]
 
-    # Extract text from PDF
+    # Extract text
     extracted_text = extract_text_from_pdf(file_path)
 
     print("\n========== EXTRACTED TEXT ==========\n")
@@ -60,11 +61,49 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     print("\n================================\n")
 
+    # Create FAISS Vector Store
+    vector_store = VectorStore(len(embeddings[0]))
+
+    # Store embeddings with their corresponding text chunks
+    vector_store.add_embeddings(
+        embeddings=embeddings,
+        chunks=chunks
+    )
+
+    print("\n========== VECTOR STORE ==========\n")
+    print(f"Vectors Stored: {vector_store.index.ntotal}")
+    print(f"Embedding Dimension: {len(embeddings[0])}")
+    print("\n==================================\n")
+
+    # ----------------------------
+    # Test Semantic Search
+    # ----------------------------
+    test_query = "Do you provide AMC services?"
+
+    query_embedding = generate_embeddings([test_query])[0]
+
+    results = vector_store.search(
+        query_embedding=query_embedding,
+        top_k=1
+    )
+
+    print("\n========== SEARCH RESULT ==========\n")
+
+    if results:
+        print(results[0])
+    else:
+        print("No matching chunks found.")
+
+    print("\n===================================\n")
+
     return {
         "message": "PDF processed successfully.",
         "original_filename": result["original_filename"],
         "stored_filename": result["stored_filename"],
         "total_chunks": len(chunks),
         "embedding_dimension": len(embeddings[0]) if embeddings else 0,
+        "vectors_stored": vector_store.index.ntotal,
+        "search_query": test_query,
+        "top_result": results[0] if results else None,
         "first_chunk": chunks[0] if chunks else ""
     }

@@ -3,7 +3,12 @@ from sentence_transformers import SentenceTransformer
 
 # Load the embedding model only once
 model = SentenceTransformer("all-MiniLM-L6-v2")
+def get_embedding_model():
+    """
+    Return the loaded embedding model.
+    """
 
+    return model
 
 def generate_embeddings(chunks: list[str]) -> list[list[float]]:
     """
