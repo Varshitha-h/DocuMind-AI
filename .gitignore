@@ -6,20 +6,38 @@ backend/__pycache__/
 backend/**/*.pyc
 backend/.env
 
-# Uploads
+# Python cache
+**/__pycache__/
+*.py[cod]
+
+# =========================
+# Uploaded Files
+# =========================
 backend/uploads/
 
 # =========================
-# Node
+# Node.js
 # =========================
 frontend/node_modules/
 
+# =========================
 # Logs
+# =========================
 *.log
 
-# OS Files
+# =========================
+# Environment Files
+# =========================
+.env
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Operating System
+# =========================
 Thumbs.db
 .DS_Store
-
-# VS Code
-.vscode/
