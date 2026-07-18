@@ -1,0 +1,35 @@
+.header {
+  height: 72px;
+  border-bottom: 1px solid var(--border);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 32px;
+
+  background: rgba(2, 6, 23, .95);
+
+  backdrop-filter: blur(12px);
+}
+
+.header h1 {
+  font-size: 28px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--text-secondary);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: var(--success);
+}
