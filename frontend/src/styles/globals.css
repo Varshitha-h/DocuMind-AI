@@ -1,64 +1,203 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+/* ==========================================================
+   Google Font
+========================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+/* ==========================================================
+   Design Tokens
+========================================================== */
 
 :root {
+
   /* Colors */
-  --bg: #020617;
-  --sidebar: #0b1220;
-  --card: #111827;
-  --card-hover: #1e293b;
-  --border: #273449;
+
+  --bg: #0b1220;
+
+  --surface: #111827;
+
+  --surface-hover: #1b2638;
+
+  --card: #151f31;
 
   --primary: #3b82f6;
+
   --primary-hover: #2563eb;
 
+  --primary-light: rgba(59,130,246,.12);
+
   --success: #22c55e;
-  --error: #ef4444;
+
+  --danger: #ef4444;
+
   --warning: #f59e0b;
 
-  --text: #f8fafc;
+  --text: #ffffff;
+
   --text-secondary: #cbd5e1;
-  --text-muted: #64748b;
+
+  --text-muted: #94a3b8;
+
+  --border: #243247;
 
   /* Radius */
-  --radius: 18px;
+
+  --radius-sm: 10px;
+
+  --radius: 16px;
+
+  --radius-lg: 22px;
 
   /* Shadow */
-  --shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+
+  --shadow-sm: 0 4px 12px rgba(0,0,0,.18);
+
+  --shadow: 0 12px 32px rgba(0,0,0,.24);
+
+  --shadow-lg: 0 20px 40px rgba(0,0,0,.30);
 
   /* Transition */
-  --transition: 250ms ease-in-out;
+
+  --transition: .25s ease;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ==========================================================
+   Reset
+========================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-html,
-body,
-#root {
-  width: 100%;
-  min-height: 100vh;
+html{
+
+    scroll-behavior:smooth;
 }
 
-body {
-  font-family: "Inter", sans-serif;
-  background: var(--bg);
-  color: var(--text);
+body{
+
+    font-family:"Inter",sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    overflow:hidden;
+
+    -webkit-font-smoothing:antialiased;
+
+    -moz-osx-font-smoothing:grayscale;
 }
 
-button,
+button{
+
+    font-family:inherit;
+
+    border:none;
+
+    cursor:pointer;
+}
+
 input,
-textarea {
-  font-family: inherit;
+textarea{
+
+    font-family:inherit;
+
+    outline:none;
+
+    border:none;
 }
 
-button {
-  cursor: pointer;
+img{
+
+    display:block;
+
+    max-width:100%;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+}
+
+ul{
+
+    list-style:none;
+}
+
+/* ==========================================================
+   Typography
+========================================================== */
+
+h1{
+
+    font-size:2.15rem;
+
+    font-weight:700;
+
+    line-height:1.15;
+}
+
+h2{
+
+    font-size:1.6rem;
+
+    font-weight:700;
+}
+
+h3{
+
+    font-size:1.05rem;
+
+    font-weight:600;
+}
+
+p{
+
+    color:var(--text-secondary);
+
+    line-height:1.65;
+
+    font-size:.95rem;
+}
+
+/* ==========================================================
+   Scrollbar
+========================================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+
+    background:transparent;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#394862;
+
+    border-radius:50px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#52627f;
+}
+
+/* ==========================================================
+   Selection
+========================================================== */
+
+::selection{
+
+    background:var(--primary);
+
+    color:white;
 }

@@ -1,47 +1,241 @@
+/* ==========================================================
+   Sidebar
+========================================================== */
+
 .sidebar {
-  width: 280px;
-  background: var(--sidebar);
+
+  width: 250px;
+  min-width: 250px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 18px 16px;
+
+  background: var(--surface);
+
   border-right: 1px solid var(--border);
-  padding: 24px;
 }
 
-.sidebar h2 {
-  font-size: 24px;
-  margin-bottom: 24px;
+/* ==========================================================
+   Logo
+========================================================== */
+
+.sidebar-logo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 26px;
 }
+
+.logo-box {
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-hover)
+  );
+
+  color: white;
+}
+
+.sidebar-logo h2 {
+
+  font-size: 18px;
+
+  margin-bottom: 2px;
+
+  color: white;
+}
+
+.sidebar-logo p {
+
+  font-size: 12px;
+
+  color: var(--text-muted);
+}
+
+/* ==========================================================
+   Button
+========================================================== */
 
 .new-document {
+
   width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: var(--radius);
+
+  height: 44px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 8px;
+
+  border-radius: 12px;
+
   background: var(--primary);
+
   color: white;
-  font-size: 16px;
+
+  font-size: 14px;
+
   font-weight: 600;
+
   transition: var(--transition);
 }
 
 .new-document:hover {
+
   background: var(--primary-hover);
 }
 
+/* ==========================================================
+   Divider
+========================================================== */
+
 .sidebar-divider {
-  margin: 32px 0;
+
+  margin: 20px 0;
+
   border-top: 1px solid var(--border);
 }
 
-.sidebar h3 {
-  color: var(--text-secondary);
-  margin-bottom: 16px;
+/* ==========================================================
+   Section
+========================================================== */
+
+.sidebar-section {
+
+  flex: 1;
 }
 
+.sidebar-section h3 {
+
+  font-size: 13px;
+
+  color: var(--text-muted);
+
+  margin-bottom: 12px;
+
+  text-transform: uppercase;
+
+  letter-spacing: .5px;
+}
+
+/* ==========================================================
+   Document List
+========================================================== */
+
 .document-list {
-  list-style: none;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
 }
 
 .document-list li {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
   padding: 12px;
+
   border-radius: 12px;
+
+  cursor: pointer;
+
+  transition: var(--transition);
+
+  color: var(--text-secondary);
+
+  font-size: 14px;
+
+  word-break: break-word;
+}
+
+.document-list li:hover {
+
+  background: rgba(255,255,255,.05);
+}
+
+.document-list li.active {
+
+  background: rgba(59,130,246,.12);
+
+  border: 1px solid rgba(59,130,246,.25);
+
+  color: white;
+}
+
+.document-list li.empty {
+
+  justify-content: center;
+
+  color: var(--text-muted);
+
+  cursor: default;
+
+  background: rgba(255,255,255,.03);
+}
+
+.document-list li.empty:hover {
+
+  background: rgba(255,255,255,.03);
+}
+
+/* ==========================================================
+   Status Card
+========================================================== */
+
+.sidebar-status {
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,.03);
+
+  border: 1px solid var(--border);
+}
+
+.status-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 6px;
+
+  font-weight: 600;
+
+  font-size: 14px;
+}
+
+.sidebar-status p {
+
+  font-size: 13px;
+
   color: var(--text-muted);
 }

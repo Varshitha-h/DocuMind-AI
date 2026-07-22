@@ -1,0 +1,103 @@
+/* ==========================================================
+   Message Layout
+========================================================== */
+
+.message-row {
+
+    display: flex;
+
+    width: 100%;
+
+    margin: 20px 0;
+}
+
+/* ==========================================================
+   User
+========================================================== */
+
+.user-row {
+
+    justify-content: flex-end;
+}
+
+.user-message {
+
+    max-width: 75%;
+
+    background: var(--primary);
+
+    color: white;
+
+    border-radius: 18px 18px 6px 18px;
+}
+
+/* ==========================================================
+   AI
+========================================================== */
+
+.ai-row {
+
+    justify-content: flex-start;
+}
+
+.ai-message {
+
+    max-width: 75%;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px 18px 18px 6px;
+
+    color: var(--text);
+}
+
+/* ==========================================================
+   Shared
+========================================================== */
+
+.message {
+
+    padding: 16px 18px;
+
+    box-shadow: var(--shadow-sm);
+}
+
+.message-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    opacity: .85;
+}
+
+.message-content {
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+    line-height: 1.7;
+
+    font-size: 15px;
+}
+
+@media(max-width:768px){
+
+.message{
+
+max-width:90%;
+
+}
+
+}

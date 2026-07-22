@@ -1,71 +1,85 @@
-import { useRef } from "react";
-import { UploadCloud } from "lucide-react";
+import { UploadCloud, CheckCircle2 } from "lucide-react";
+import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
-import Button from "../common/Button";
 import { uploadDocument } from "../../services/documentService";
+import { useDocument } from "../../context/DocumentContext";
 
 import "../../styles/uploadCard.css";
 
 function UploadCard() {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleBrowseClick = () => {
-    fileInputRef.current?.click();
-  };
+  const [loading, setLoading] = useState(false);
 
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+  const { uploadedFile, setUploadedFile, setIsDocumentUploaded } = useDocument();
+
+  const handleUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file = event.target.files?.[0];
+    const file = e.target.files?.[0];
 
     if (!file) return;
 
+    if (file.type !== "application/pdf") {
+      toast.error("Please upload a PDF file.");
+      return;
+    }
+
     try {
-      const result = await uploadDocument(file);
+      setLoading(true);
 
-      console.log(result);
+      await uploadDocument(file);
 
-      alert("PDF uploaded successfully!");
-    } 
-    catch (error) {
-  console.error("Upload Error:", error);
+      setUploadedFile(file.name);
 
-  if (error instanceof Error) {
-    alert(error.message);
-  } else {
-    alert("Upload failed.");
-  }
-}
+      setIsDocumentUploaded(true);
+
+      toast.success("Document uploaded successfully!");
+    } catch {
+      toast.error("Upload failed.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <section className="upload-card">
+    <div className="upload-card">
+
       <div className="upload-icon">
-        <UploadCloud strokeWidth={1.7} />
+        <UploadCloud size={28} />
       </div>
 
-      <h2>Drop your PDF here</h2>
+      <h2>Upload your PDF</h2>
 
       <p>
-        Drag & drop your file or browse from your computer.
+        Drag & drop your document or browse your files to begin chatting.
       </p>
 
-      <Button onClick={handleBrowseClick}>
-        Browse Files
-      </Button>
-
       <input
-        ref={fileInputRef}
+        hidden
+        ref={inputRef}
         type="file"
         accept=".pdf"
-        hidden
-        onChange={handleFileChange}
+        onChange={handleUpload}
       />
 
-      <span className="upload-note">
-        PDF • Maximum size 10 MB
-      </span>
-    </section>
+      <button
+        className="upload-btn"
+        disabled={loading}
+        onClick={() => inputRef.current?.click()}
+      >
+        {loading ? "Uploading..." : "Choose PDF"}
+      </button>
+
+      {uploadedFile && (
+        <div className="uploaded-file">
+          <CheckCircle2 size={18} />
+          <span>{uploadedFile}</span>
+        </div>
+      )}
+
+    </div>
   );
 }
 

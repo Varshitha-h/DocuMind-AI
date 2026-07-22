@@ -1,59 +1,55 @@
-import { Brain, Shield, Upload, Zap } from "lucide-react";
-
-import Button from "../common/Button";
-import Card from "../common/Card";
+import { Brain, ShieldCheck, Zap } from "lucide-react";
 import UploadCard from "./UploadCard";
-
 import "../../styles/hero.css";
 
 function HeroSection() {
   return (
     <section className="hero">
-      {/* Hero Badge */}
+
+      {/* Badge */}
+
       <div className="hero-badge">
-        Local AI • Powered by Llama 3.2
+        🧠 Local AI • Powered by Llama 3.2
       </div>
 
       {/* Heading */}
+
       <h1>
         Chat with your <span>Documents</span>
       </h1>
 
-      {/* Description */}
+      {/* Subtitle */}
+
       <p className="hero-description">
-        Upload PDFs, ask natural language questions, and receive accurate
-        answers powered by semantic search and your local Llama 3.2 model.
+        Upload PDF documents and ask questions in natural language.
+        Powered by semantic search, FAISS, and your local Llama model.
       </p>
 
-      {/* Upload Button */}
-      {/* <Button>
-        <Upload size={18} />
-        Upload PDF
-      </Button> */}
+      {/* Upload */}
 
-      {/* Upload Card */}
       <UploadCard />
 
-      {/* Feature Cards */}
-      <div className="feature-grid">
-        <Card
-          icon={<Zap size={30} />}
-          title="Fast Local AI"
-          description="Runs completely on your machine using Ollama."
-        />
+      {/* Feature Pills */}
 
-        <Card
-          icon={<Brain size={30} />}
-          title="Semantic Search"
-          description="Uses FAISS vector search to find the most relevant document content."
-        />
+      <div className="feature-strip">
 
-        <Card
-          icon={<Shield size={30} />}
-          title="Private & Secure"
-          description="Your documents remain on your computer. Nothing is uploaded to the cloud."
-        />
+        <div className="feature-pill">
+          <Zap size={18} />
+          <span>Fast Local AI</span>
+        </div>
+
+        <div className="feature-pill">
+          <Brain size={18} />
+          <span>Semantic Search</span>
+        </div>
+
+        <div className="feature-pill">
+          <ShieldCheck size={18} />
+          <span>Private & Secure</span>
+        </div>
+
       </div>
+
     </section>
   );
 }

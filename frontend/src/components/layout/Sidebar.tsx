@@ -1,26 +1,88 @@
+import { Brain, FileText, Plus, Circle } from "lucide-react";
+import { useDocument } from "../../context/DocumentContext";
 import "../../styles/sidebar.css";
 
 function Sidebar() {
+  const { uploadedFile } = useDocument();
+
   return (
     <aside className="sidebar">
 
-      <h2>📄 Documents</h2>
+      {/* Logo */}
+
+      <div className="sidebar-logo">
+
+        <div className="logo-box">
+          <Brain size={22} />
+        </div>
+
+        <div>
+          <h2>DocuMind AI</h2>
+          <p>AI Document Assistant</p>
+        </div>
+
+      </div>
+
+      {/* New Chat */}
 
       <button className="new-document">
-
-        + New Document
-
+        <Plus size={18} />
+        <span>New Chat</span>
       </button>
 
       <div className="sidebar-divider"></div>
 
-      <h3>Recent Files</h3>
+      {/* Recent Files */}
 
-      <ul className="document-list">
+      <div className="sidebar-section">
 
-        <li>No documents uploaded</li>
+        <h3>Recent Documents</h3>
 
-      </ul>
+        <ul className="document-list">
+
+          {uploadedFile ? (
+
+            <li className="active">
+
+              <FileText size={18} />
+
+              <span>{uploadedFile}</span>
+
+            </li>
+
+          ) : (
+
+            <li className="empty">
+
+              No documents uploaded
+
+            </li>
+
+          )}
+
+        </ul>
+
+      </div>
+
+      {/* Bottom Status */}
+
+      <div className="sidebar-status">
+
+        <div className="status-header">
+
+          <Circle
+            size={10}
+            fill="#22c55e"
+            stroke="#22c55e"
+          />
+
+          <span>Local AI</span>
+
+        </div>
+
+        <p>Llama 3.2 Ready</p>
+
+      </div>
 
     </aside>
   );

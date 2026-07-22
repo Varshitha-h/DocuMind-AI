@@ -1,3 +1,4 @@
+import { Brain, Circle } from "lucide-react";
 import "../../styles/header.css";
 
 function Header() {
@@ -6,19 +7,32 @@ function Header() {
 
       <div className="header-left">
 
-        <h1>DocuMind AI</h1>
+        <div className="header-icon">
+          <Brain size={20} />
+        </div>
+
+        <div>
+          <h1>DocuMind AI</h1>
+          <p>AI-Powered Document Assistant</p>
+        </div>
 
       </div>
 
-      <div className="header-right">
+      <div className="header-status">
 
-        <span className="status">
+        <Circle
+          size={10}
+          fill="#22c55e"
+          stroke="#22c55e"
+        />
 
-          <span className="status-dot"></span>
+        <div>
 
-          Local • Llama 3.2
+          <span>Local AI</span>
 
-        </span>
+          <small>Llama 3.2 Ready</small>
+
+        </div>
 
       </div>
 

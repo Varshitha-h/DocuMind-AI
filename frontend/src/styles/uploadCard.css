@@ -1,88 +1,150 @@
+/* ==========================================================
+   Upload Card
+========================================================== */
+
 .upload-card {
 
   width: 100%;
-  max-width: 460px;
+  max-width: 480px;
 
-  margin: 0 auto;
+  margin: auto;
 
-  padding: 22px;
-
-  border: 2px dashed var(--border);
+  padding: 26px;
 
   border-radius: 18px;
 
-  background: transparent;
+  background: var(--card);
 
-  transition: .25s;
+  border: 1px solid var(--border);
 
-  cursor: pointer;
+  box-shadow: var(--shadow-sm);
 
+  text-align: center;
+
+  transition: var(--transition);
 }
 
-.upload-card:hover{
+.upload-card:hover {
 
-  border-color: var(--primary);
+  transform: translateY(-2px);
 
-  background: rgba(59,130,246,.04);
+  border-color: rgba(59,130,246,.25);
 
+  box-shadow: var(--shadow);
 }
 
-.upload-icon{
+/* Icon */
+
+.upload-icon {
+
+  width: 54px;
+  height: 54px;
+
+  margin: auto;
+
+  margin-bottom: 18px;
+
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(59,130,246,.12);
 
   color: var(--primary);
-
-  margin-bottom: 12px;
-
 }
 
-.upload-icon svg{
+/* Title */
 
-  width:38px;
+.upload-card h2 {
 
-  height:38px;
+  font-size: 1.4rem;
 
+  margin-bottom: 10px;
+
+  color: white;
 }
 
-.upload-card h2{
+/* Description */
 
-  font-size:22px;
+.upload-card p {
 
-  margin-bottom:8px;
+  max-width: 340px;
 
+  margin: auto;
+
+  margin-bottom: 22px;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  color: var(--text-secondary);
 }
 
-.upload-card p{
+/* Button */
 
-  max-width:360px;
+.upload-btn {
 
-  margin:auto;
+  padding: 12px 22px;
 
-  margin-bottom:16px;
+  border-radius: 12px;
 
-  font-size:14px;
+  background: linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-hover)
+  );
 
-  line-height:1.5;
+  color: white;
 
-  color:var(--text-secondary);
+  font-size: 14px;
 
+  font-weight: 600;
+
+  transition: var(--transition);
 }
 
-.upload-card .btn{
+.upload-btn:hover:not(:disabled) {
 
-  padding:10px 20px;
+  transform: translateY(-2px);
 
-  font-size:14px;
-
+  box-shadow: 0 8px 20px rgba(59,130,246,.30);
 }
 
-.upload-note{
+.upload-btn:disabled {
 
-  display:block;
+  opacity: .7;
 
-  margin-top:14px;
+  cursor: not-allowed;
+}
 
-  font-size:12px;
+/* Uploaded File */
 
-  color:var(--text-muted);
+.uploaded-file {
 
+  margin-top: 20px;
+
+  padding: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  border-radius: 12px;
+
+  background: rgba(34,197,94,.10);
+
+  border: 1px solid rgba(34,197,94,.25);
+
+  color: #4ade80;
+
+  font-size: 14px;
+
+  word-break: break-word;
 }
