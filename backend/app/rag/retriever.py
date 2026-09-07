@@ -1,6 +1,7 @@
 from app.config import settings
 from app.exceptions.custom_exceptions import DocumentNotUploadedException
 from app.rag.embeddings import generate_embeddings
+from app.rag.models import DocumentChunk
 from app.rag.storage import get_vector_store
 
 
@@ -24,31 +25,61 @@ class Retriever:
             top_k: Number of chunks to retrieve.
 
         Returns:
-            Combined context string.
+            Formatted context string.
         """
 
-        # Use default TOP_K from config
-        if top_k is None:
-            top_k = settings.TOP_K
-
-        # Get shared vector store
         vector_store = get_vector_store()
 
         if vector_store is None:
             raise DocumentNotUploadedException()
 
-        # Generate embedding for question
+        # ---------------------------------------------
+        # Smart Retrieval Strategy
+        # ---------------------------------------------
+
+        total_chunks = vector_store.get_total_chunks()
+
+        if top_k is None:
+
+            if total_chunks <= 15:
+                top_k = total_chunks
+
+            elif total_chunks <= 50:
+                top_k = min(10, total_chunks)
+
+            else:
+                top_k = settings.TOP_K
+
+        # ---------------------------------------------
+
         query_embedding = generate_embeddings(
-            [question]
+            [
+                DocumentChunk(
+                    chunk_id=0,
+                    page=0,
+                    text=question
+                )
+            ]
         )[0]
 
-        # Search vector store
-        results = vector_store.search(
+        results: list[DocumentChunk] = vector_store.search(
             query_embedding=query_embedding,
             top_k=top_k
         )
 
-        # Merge retrieved chunks
-        context = "\n\n".join(results)
+        context_parts = []
 
-        return context
+        for chunk in results:
+
+            context_parts.append(
+                f"""
+[Source]
+Page: {chunk.page}
+Chunk: {chunk.chunk_id}
+
+Content:
+{chunk.text}
+""".strip()
+            )
+
+        return "\n\n-----------------------------\n\n".join(context_parts)

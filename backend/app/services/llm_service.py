@@ -1,19 +1,33 @@
-import ollama
+from ollama import Client
 
+from app.ai.prompt_builder import PromptBuilder
 from app.config import settings
 from app.logger import logger
+from app.memory.memory_service import get_memory_service
 
 
 class LLMService:
     """
-    Handles communication with the local Ollama LLM.
+    Handles communication with the Ollama LLM.
     """
 
     def __init__(self):
         """
         Initialize the LLM service.
         """
+
         self.model_name = settings.LLM_MODEL
+
+        self.prompt_builder = PromptBuilder()
+
+        self.memory = get_memory_service()
+
+        self.client = Client(
+            host="https://ollama.com",
+            headers={
+                "Authorization": f"Bearer {settings.OLLAMA_API_KEY}"
+            }
+        )
 
     def generate_answer(
         self,
@@ -21,7 +35,8 @@ class LLMService:
         context: str
     ) -> str:
         """
-        Generate an answer using the retrieved document context.
+        Generate an AI response using the uploaded document
+        and the user's question.
 
         Args:
             question: User's question.
@@ -31,36 +46,23 @@ class LLMService:
             AI-generated answer.
         """
 
-        prompt = f"""
-You are DocuMind AI.
+        # Get previous conversation
+        conversation_history = self.memory.get_history()
 
-You are a helpful AI assistant that answers questions ONLY from the provided document.
+        # Build prompt
+        prompt = self.prompt_builder.build_prompt(
+            question=question,
+            context=context,
+            conversation=conversation_history
+        )
 
-Instructions:
-- Use only the information available in the document context.
-- Do not make up information.
-- If the answer cannot be found in the document, reply exactly:
-
-"I couldn't find that information in the uploaded document."
-
-----------------------------------------
-Document Context
-
-{context}
-
-----------------------------------------
-Question
-
-{question}
-
-----------------------------------------
-Answer
-"""
-
-        logger.info("Generating response using %s...", self.model_name)
+        logger.info(
+            "Generating response using %s...",
+            self.model_name
+        )
 
         try:
-            response = ollama.chat(
+            response = self.client.chat(
                 model=self.model_name,
                 messages=[
                     {
@@ -70,12 +72,22 @@ Answer
                 ]
             )
 
-            logger.info("LLM response generated successfully.")
+            answer = response["message"]["content"]
 
-            return response["message"]["content"]
+            # Save conversation to memory
+            self.memory.add_user_message(question)
+            self.memory.add_ai_message(answer)
+
+            logger.info(
+                "LLM response generated successfully."
+            )
+
+            return answer
 
         except Exception as error:
-            logger.exception("LLM generation failed.")
+            logger.exception(
+                "LLM generation failed."
+            )
 
             raise RuntimeError(
                 "Failed to generate response from the language model."

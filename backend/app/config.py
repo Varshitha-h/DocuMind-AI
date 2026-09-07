@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
+
 # Load environment variables from .env
 load_dotenv()
 
@@ -25,6 +26,11 @@ class Settings:
         "LLM_MODEL",
         "llama3.2"
     )
+    OLLAMA_API_KEY = os.getenv(
+        "OLLAMA_API_KEY",
+        ""
+    )
+
 
     TOP_K = int(
         os.getenv(

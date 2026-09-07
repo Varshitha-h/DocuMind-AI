@@ -11,7 +11,7 @@ from app.rag.chunker import chunk_text
 from app.rag.embeddings import generate_embeddings
 from app.rag.storage import initialize_vector_store
 from app.services.pdf_reader import extract_text_from_pdf
-from app.services.pdf_service import save_pdf
+from app.services.pdf_service import UPLOAD_DIR, save_pdf
 
 
 class DocumentPipeline:
@@ -60,7 +60,7 @@ class DocumentPipeline:
             result["stored_filename"]
         )
 
-        file_path = Path("uploads") / result["stored_filename"]
+        file_path = UPLOAD_DIR / result["stored_filename"]
 
         # -------------------------------------------------
         # Extract text

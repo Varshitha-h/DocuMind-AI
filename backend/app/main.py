@@ -1,14 +1,21 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.upload import router as upload_router
 from app.api.chat import router as chat_router
 
+
+PORT = int(os.getenv("PORT", "8000"))
+
+
 app = FastAPI(
     title="DocuMind AI",
     description="LLM-powered Document Question Answering System",
     version="1.0.0"
 )
+
 
 # Enable CORS
 app.add_middleware(
@@ -22,6 +29,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# Register API routes
 app.include_router(upload_router)
 app.include_router(chat_router)
 
