@@ -18,10 +18,12 @@ function AppShell({ children }: AppShellProps) {
         <Header />
 
         <main className="content">
-
           {children}
-
         </main>
+
+        <footer className="app-footer">
+          © 2026 Varshitha H. All rights reserved.
+        </footer>
 
       </div>
 
